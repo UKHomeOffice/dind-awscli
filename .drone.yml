@@ -12,10 +12,9 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   environment:
-    IMAGE_NAME: quay.io/ukhomeofficedigital/dind-awscli
+    IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
   commands:
-  # wait for docker service to be up before running docker build
-  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done; if [ ! docker stats --no-stream ]; then exit 1; fi
+  - /usr/local/bin/wait
   - docker build -t $${IMAGE_NAME}:$${DRONE_COMMIT_SHA} . --no-cache
   when:
     event:
@@ -26,14 +25,13 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   environment:
-    IMAGE_NAME: quay.io/ukhomeofficedigital/dind-awscli
+    IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
     REGISTRY: quay.io
-    DOCKER_USERNAME: ukhomeofficedigital+dind_awscli
+    DOCKER_USERNAME: ukhomeofficedigital+docker_awscli
     DOCKER_PASSWORD:
       from_secret: docker_password
   commands:
-  # wait for docker service to be up before running docker build
-  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done; if [ ! docker stats --no-stream ]; then exit 1; fi
+  - /usr/local/bin/wait
   - docker login -u="$${DOCKER_USERNAME}" -p="$${DOCKER_PASSWORD}" $${REGISTRY}
   - docker tag $${IMAGE_NAME}:$${DRONE_COMMIT_SHA} $${IMAGE_NAME}:latest
   - docker push $${IMAGE_NAME}:$${DRONE_COMMIT_SHA}
@@ -48,14 +46,13 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   environment:
-    IMAGE_NAME: quay.io/ukhomeofficedigital/dind-awscli
+    IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
     REGISTRY: quay.io
-    DOCKER_USERNAME: ukhomeofficedigital+dind_awscli
+    DOCKER_USERNAME: ukhomeofficedigital+docker_awscli
     DOCKER_PASSWORD:
       from_secret: docker_password
   commands:
-  # wait for docker service to be up before running docker build
-  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done; if [ ! docker stats --no-stream ]; then exit 1; fi
+  - /usr/local/bin/wait
   - docker login -u="$${DOCKER_USERNAME}" -p="$${DOCKER_PASSWORD}" $${REGISTRY}
   - docker tag $${IMAGE_NAME}:$${DRONE_COMMIT_SHA} $${IMAGE_NAME}:$${DRONE_TAG}
   - docker push $${IMAGE_NAME}:$${DRONE_COMMIT_SHA}
