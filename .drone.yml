@@ -27,7 +27,7 @@ steps:
   environment:
     IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
     REGISTRY: quay.io
-    DOCKER_USERNAME: ukhomeofficedigital+dind_awscli
+    DOCKER_USERNAME: ukhomeofficedigital+docker_awscli
     DOCKER_PASSWORD:
       from_secret: docker_password
   commands:
@@ -48,7 +48,7 @@ steps:
   environment:
     IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
     REGISTRY: quay.io
-    DOCKER_USERNAME: ukhomeofficedigital+dind_awscli
+    DOCKER_USERNAME: ukhomeofficedigital+docker_awscli
     DOCKER_PASSWORD:
       from_secret: docker_password
   commands:
