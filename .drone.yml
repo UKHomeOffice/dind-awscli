@@ -14,8 +14,7 @@ steps:
   environment:
     IMAGE_NAME: quay.io/ukhomeofficedigital/dind-awscli
   commands:
-  # wait for docker service to be up before running docker build
-  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done; if [ ! docker stats --no-stream ]; then exit 1; fi
+  - /usr/local/bin/wait
   - docker build -t $${IMAGE_NAME}:$${DRONE_COMMIT_SHA} . --no-cache
   when:
     event:
@@ -32,8 +31,7 @@ steps:
     DOCKER_PASSWORD:
       from_secret: docker_password
   commands:
-  # wait for docker service to be up before running docker build
-  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done; if [ ! docker stats --no-stream ]; then exit 1; fi
+  - /usr/local/bin/wait
   - docker login -u="$${DOCKER_USERNAME}" -p="$${DOCKER_PASSWORD}" $${REGISTRY}
   - docker tag $${IMAGE_NAME}:$${DRONE_COMMIT_SHA} $${IMAGE_NAME}:latest
   - docker push $${IMAGE_NAME}:$${DRONE_COMMIT_SHA}
@@ -54,8 +52,7 @@ steps:
     DOCKER_PASSWORD:
       from_secret: docker_password
   commands:
-  # wait for docker service to be up before running docker build
-  - n=0; while [ "$n" -lt 60 ] && [ ! docker stats --no-stream ]; do n=$(( n + 1 )); sleep 1; done; if [ ! docker stats --no-stream ]; then exit 1; fi
+  - /usr/local/bin/wait
   - docker login -u="$${DOCKER_USERNAME}" -p="$${DOCKER_PASSWORD}" $${REGISTRY}
   - docker tag $${IMAGE_NAME}:$${DRONE_COMMIT_SHA} $${IMAGE_NAME}:$${DRONE_TAG}
   - docker push $${IMAGE_NAME}:$${DRONE_COMMIT_SHA}
