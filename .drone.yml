@@ -22,20 +22,17 @@ steps:
     - tag
 
 - name: push_latest
-  pull: if-not-exists
-  image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
+  image: plugins/docker
+  settings:
+    registry: quay.io
+    repo: quay.io/ukhomeofficedigital/docker-awscli
+    tags:
+    - ${DRONE_COMMIT_SHA}
+    - latest
   environment:
-    IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
-    REGISTRY: quay.io
     DOCKER_USERNAME: ukhomeofficedigital+docker_awscli
     DOCKER_PASSWORD:
       from_secret: docker_password
-  commands:
-  - /usr/local/bin/wait
-  - docker login -u="$${DOCKER_USERNAME}" -p="$${DOCKER_PASSWORD}" $${REGISTRY}
-  - docker tag $${IMAGE_NAME}:$${DRONE_COMMIT_SHA} $${IMAGE_NAME}:latest
-  - docker push $${IMAGE_NAME}:$${DRONE_COMMIT_SHA}
-  - docker push $${IMAGE_NAME}:latest
   when:
     branch:
     - master
