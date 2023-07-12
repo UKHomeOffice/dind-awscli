@@ -12,7 +12,7 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   environment:
-    IMAGE_NAME: quay.io/ukhomeofficedigital/dind-awscli
+    IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
   commands:
   - /usr/local/bin/wait
   - docker build -t $${IMAGE_NAME}:$${DRONE_COMMIT_SHA} . --no-cache
@@ -25,7 +25,7 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   environment:
-    IMAGE_NAME: quay.io/ukhomeofficedigital/dind-awscli
+    IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
     REGISTRY: quay.io
     DOCKER_USERNAME: ukhomeofficedigital+dind_awscli
     DOCKER_PASSWORD:
@@ -46,7 +46,7 @@ steps:
   pull: if-not-exists
   image: 340268328991.dkr.ecr.eu-west-2.amazonaws.com/acp/dind
   environment:
-    IMAGE_NAME: quay.io/ukhomeofficedigital/dind-awscli
+    IMAGE_NAME: quay.io/ukhomeofficedigital/docker-awscli
     REGISTRY: quay.io
     DOCKER_USERNAME: ukhomeofficedigital+dind_awscli
     DOCKER_PASSWORD:
